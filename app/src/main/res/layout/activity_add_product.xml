@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Input for product name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Tên sản phẩm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input for product price -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Giá sản phẩm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input for product quantity -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Số lượng">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ProductQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input for product stock -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Số lượng tồn kho">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ProductStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input for product description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Mô tả sản phẩm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Button to add product image -->
+        <Button
+            android:id="@+id/btnProdutImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm ảnh sản phẩm"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background_product"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Submit button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm sản phẩm"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background_product"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

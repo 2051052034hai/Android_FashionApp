@@ -1,12 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <item-->
+<!--        android:id="@+id/action_prev"-->
+<!--        android:icon="@drawable/ic_prev"-->
+<!--        android:orderInCategory="0"-->
+<!--        android:title="prev"-->
+<!--        app:showAsAction="always" />-->
 
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/baseline_search_24"
         android:title="@string/app_search"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:iconifiedByDefault="false"
+        app:defaultQueryHint="@string/app_search"
+        app:queryBackground="@android:color/black" />
+
+    <item
+        android:id="@+id/action_user"
+        android:icon="@drawable/user"
+        android:title="User"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/cart"
+        android:title="Cart"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_logAdmin"
+        android:title="Quản trị"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_login"
+        android:title="Đăng nhập"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_register"
+        android:title="Đăng ký"
+        app:showAsAction="never" />
 </menu>

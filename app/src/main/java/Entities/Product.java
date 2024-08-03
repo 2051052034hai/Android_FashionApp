@@ -1,11 +1,15 @@
-package com.example.fashion_app;
+package Entities;
 
 public class Product {
+    private int ID;
     private int imageResource;
     private String productName;
     private String productPrice;
 
-    public Product(int imageResource, String productName, String productPrice) {
+    private int StockQuantity;
+
+    public Product(int ID, int imageResource, String productName, String productPrice) {
+        this.ID = ID;
         this.imageResource = imageResource;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -33,5 +37,14 @@ public class Product {
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+    }
+
+    //Lấy sản phẩm theo ID
+    public int getId() {
+        return ID;
+    }
+
+    public int getStockQuantity() {
+        return StockQuantity;
     }
 }

@@ -30,8 +30,25 @@
             </intent-filter>
         </activity>
 
-        <!-- Thêm các activity, service, receiver, provider nếu cần -->
-
+        <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - Begin Add-->
+        <activity
+            android:name="com.example.fashion_app.ProductDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.CartActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.ProductListActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.AddProduct"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.RegisterActivity"
+            android:exported="true" />
+        <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - End Add-->
     </application>
-
 </manifest>
