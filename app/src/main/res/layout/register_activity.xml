@@ -46,7 +46,7 @@ android:padding="15dp">
     app:startIconDrawable="@drawable/ic_email">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etEmail"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -64,7 +64,7 @@ android:padding="15dp">
     app:startIconDrawable="@drawable/ic_password">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -82,7 +82,7 @@ android:padding="15dp">
     app:startIconDrawable="@drawable/ic_password">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etConfirmPassword"
+        android:id="@+id/editTextConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Confirm Password"

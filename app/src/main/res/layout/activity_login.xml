@@ -29,7 +29,7 @@
 
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
+            android:id="@+id/textViewEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -47,7 +47,7 @@
         app:startIconDrawable="@drawable/ic_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+            android:id="@+id/textViewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -131,7 +131,7 @@
 
     <TextView
         android:textColor="@color/blue_400"
-        android:id="@+id/textViewLink2"
+        android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot your password?"
@@ -139,4 +139,3 @@
         android:linksClickable="true"
         android:textSize="16sp" />
 </LinearLayout>
-
