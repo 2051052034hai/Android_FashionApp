@@ -17,4 +17,6 @@
     <color name="blue_lighter">#BBDEFB</color>
     <color name="blue_400">#03A9F4</color>
     <color name="red">#F44336</color>
+    <color name="light_blue">#E0F7FA</color>
+    <color name="transparent">#00000000</color>
 </resources>

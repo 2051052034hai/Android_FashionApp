@@ -8,9 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import Entities.Product;
+
+import com.bumptech.glide.Glide;
 import com.example.fashion_app.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -39,6 +43,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+        //Tải hình ảnh sản phẩm lên
+        Glide.with(holder.itemView.getContext())
+                .load(product.getImageUrl())
+                .placeholder(R.drawable.white_product)
+                .error(R.drawable.white_product)
+                .into(holder.imageProduct);
+        //Tải thông tin sản phẩm
         holder.bind(product, listener);
     }
 
@@ -61,10 +72,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         //Hiển thị thông tin sản phẩm theo ID
         public void bind(final Product product, final OnItemClickListener listener) {
+            // Convert price string to a long value
+            long priceValue = Long.parseLong(product.getPrice());
+
+            // Format the price with a dot separator and add " vnđ"
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
+            String formattedPrice = numberFormat.format(priceValue) + " vnđ";
+
             // Bind data to views
-            imageProduct.setImageResource(product.getImageResource());
-            textProductName.setText(product.getProductName());
-            textProductPrice.setText(product.getProductPrice());
+            textProductName.setText(product.getName());
+            textProductPrice.setText(formattedPrice);
 
             imageProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,5 +94,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
     }
-
 }

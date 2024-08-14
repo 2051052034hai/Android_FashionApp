@@ -33,9 +33,9 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
     @Override
     public void onBindViewHolder(@NonNull RelatedProductViewHolder holder, int position) {
         Product product = relatedProducts.get(position);
-        holder.relatedProductImage.setImageResource(product.getImageResource());
-        holder.relatedProductName.setText(product.getProductName());
-        holder.relatedProductPrice.setText(product.getProductPrice());
+        holder.relatedProductImage.setImageResource(Integer.parseInt(product.getImageUrl()));
+        holder.relatedProductName.setText(product.getName());
+        holder.relatedProductPrice.setText(product.getPrice());
         // Assuming you have a way to load images, e.g., using Glide or Picasso
         // Glide.with(holder.relatedProductImage.getContext()).load(product.getImageUrl()).into(holder.relatedProductImage);
     }

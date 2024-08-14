@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Quản lý sản phẩm"
+        android:text="Quản lý loại sản phẩm"
         android:textStyle="bold"
         android:textSize="25sp"
         android:background="#ADD8E6"
@@ -47,10 +47,9 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
-
     <!-- RecyclerView to display product list -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_productList"
+        android:id="@+id/recycler_view_productCategorydList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

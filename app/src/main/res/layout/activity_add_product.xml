@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Tên sản phẩm">
+            android:hint="Tên sản phẩm"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ProductName"
@@ -28,12 +30,31 @@
                 android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Input for product category (Spinner) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Loại sản phẩm"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
+
+            <Spinner
+                android:id="@+id/spinnerProductCategory"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Input for product price -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Giá sản phẩm">
+            android:layout_marginTop="32dp"
+            android:hint="Giá sản phẩm"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ProductPrice"
@@ -45,29 +66,14 @@
                 android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Input for product quantity -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Số lượng">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ProductQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:background="@drawable/input_background_product"
-                android:textColor="@color/purple_200"
-                android:textSize="16sp"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Input for product stock -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Số lượng tồn kho">
+            android:hint="Số lượng tồn kho"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ProductStock"
@@ -84,7 +90,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Mô tả sản phẩm">
+            android:hint="Mô tả sản phẩm"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ProductDescription"
@@ -98,14 +106,41 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Button to add product image -->
-        <Button
-            android:id="@+id/btnProdutImage"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thêm ảnh sản phẩm"
-            android:textColor="@color/white"
-            android:background="@drawable/button_background_product"
-            android:layout_marginTop="16dp"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:background="@color/light_blue"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/btnProdutImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn ảnh"
+                android:textColor="@color/white"
+                android:background="@drawable/button_background_product"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/imgProductThumbnail"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/transparent"
+                android:contentDescription="Product Image" />
+
+            <TextView
+                android:id="@+id/txtViewUrlImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:textColor="@color/black"
+                android:text="Chưa chọn ảnh" />
+        </LinearLayout>
 
         <!-- Submit button -->
         <Button
