@@ -23,43 +23,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import Adapter.ProductListAdapter;
-import Entities.Product;
+import Adapter.ProductCategoryListAdapter;
+import Entities.ProductCategory;
 
-public class ProductListActivity extends AppCompatActivity {
-    private RecyclerView recyclerViewProductList;
-    private ProductListAdapter productListAdapter;
+public class ProductCategoryListActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerViewProductCategoryList;
+    private ProductCategoryListAdapter productCategoryListAdapter;
     private ImageView btnAddNew;
     private DatabaseReference databaseReference;
-    private List<Product> productList;
-
+    private List<ProductCategory> productCategoryList;
     private SearchView search_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_management);
+        setContentView(R.layout.activity_product_category_management);
 
-        recyclerViewProductList = findViewById(R.id.recycler_view_productList);
-        recyclerViewProductList.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewProductCategoryList = findViewById(R.id.recycler_view_productCategorydList);
+        recyclerViewProductCategoryList.setLayoutManager(new LinearLayoutManager(this));
 
-        productList = new ArrayList<>();
-        productListAdapter = new ProductListAdapter(productList, this);
-        recyclerViewProductList.setAdapter(productListAdapter);
+        productCategoryList = new ArrayList<>();
+        productCategoryListAdapter = new ProductCategoryListAdapter(productCategoryList, this);
+        recyclerViewProductCategoryList.setAdapter(productCategoryListAdapter);
 
-        //Load danh sách sản phẩm
-        settingAllProductsFromFirebase();
+        //Load danh sách loại sản phẩm
+        settingAllCategoriesFromFirebase();
 
-       // Xử lý khi click vào button thêm mới
+        // Xử lý khi click vào button thêm mới
         btnAddNew = findViewById(R.id.btn_addnew_item);
         btnAddNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductListActivity.this, AddProductActivity.class);
+                Intent intent = new Intent(ProductCategoryListActivity.this, AddProductCategoryActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Xử lý khi click vào nút search sản phẩm
+        // Xử lý khi click vào nút search loại sản phẩm
         search_view = findViewById(R.id.search_view);
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -71,10 +71,10 @@ public class ProductListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
                     // If the search view is cleared, show all products
-                    settingAllProductsFromFirebase();
+                    settingAllCategoriesFromFirebase();
                 } else {
                     // Filter product list based on search text
-                    filterProductList(newText);
+                    filterProductCategoryList(newText);
                 }
                 return true;
             }
@@ -82,22 +82,22 @@ public class ProductListActivity extends AppCompatActivity {
 
     }
 
-    //Hàm xử lý lọc sản phẩm theo tên
-    private void filterProductList(String query) {
-        List<Product> filteredList = new ArrayList<>();
+    //Hàm xử lý lọc loại sản phẩm theo tên
+    private void filterProductCategoryList(String query) {
+        List<ProductCategory> filteredList = new ArrayList<>();
 
         // Normalize query để không phân biệt dấu và chữ hoa thường
         String normalizedQuery = normalizeString(query.toLowerCase());
 
-        for (Product product : productList) {
+        for (ProductCategory productCat : productCategoryList) {
             // Normalize tên sản phẩm để so sánh
-            String normalizedProductName = normalizeString(product.getName().toLowerCase());
+            String normalizedProductName = normalizeString(productCat.getName().toLowerCase());
 
             if (normalizedProductName.contains(normalizedQuery)) {
-                filteredList.add(product);
+                filteredList.add(productCat);
             }
         }
-        productListAdapter.updateList(filteredList);
+        productCategoryListAdapter.updateList(filteredList);
     }
 
     // Hàm để loại bỏ dấu tiếng Việt
@@ -107,25 +107,25 @@ public class ProductListActivity extends AppCompatActivity {
         return pattern.matcher(normalized).replaceAll("");
     }
 
-    //Xử lý load thông tin cho danh muc loại sản phẩm
-    private void settingAllProductsFromFirebase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("products");
+    //Xử lý load thông tin cho danh muc sản phẩm
+    private void settingAllCategoriesFromFirebase() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("categories");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                productList.clear();
+                productCategoryList.clear();
                 for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                    Product product = productSnapshot.getValue(Product.class);
-                    if (product != null) {
-                        productList.add(product);
+                    ProductCategory productCat = productSnapshot.getValue(ProductCategory.class);
+                    if (productCat != null) {
+                        productCategoryList.add(productCat);
                     }
                 }
-                productListAdapter.notifyDataSetChanged();
+                productCategoryListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProductListActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductCategoryListActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
             }
         });
     }

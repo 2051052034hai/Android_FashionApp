@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name="com.example.fashion_app.ProductListActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - Begin Add-->
         <activity
@@ -41,7 +50,13 @@
             android:name="com.example.fashion_app.ProductListActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.fashion_app.AddProduct"
+            android:name="com.example.fashion_app.ProductCategoryListActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.AddProductActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.AddProductCategoryActivity"
             android:exported="true" />
         <activity
             android:name="com.example.fashion_app.LoginActivity"
@@ -49,6 +64,12 @@
         <activity
             android:name="com.example.fashion_app.RegisterActivity"
             android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.ViewProductActivity"
+            android:exported="true" />
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - End Add-->
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

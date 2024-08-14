@@ -1,5 +1,6 @@
 package com.example.fashion_app;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import Adapter.CommentAdapter;
 import Adapter.RelatedProductAdapter;
 import Common.BaseActivity;
@@ -33,12 +44,45 @@ public class ProductDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        int productId = getIntent().getIntExtra("PRODUCT_ID", -1);
+        String productId = getIntent().getStringExtra("PRODUCT_ID");
 
-          //Ẩn title ToolBar
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setTitle("");
-//        }
+        // Lấy các view
+        ImageView productImage = findViewById(R.id.productImage);
+        TextView productName = findViewById(R.id.productName);
+        TextView productPrice = findViewById(R.id.productPrice);
+        TextView productDescription = findViewById(R.id.productDescription);
+
+        // Truy vấn Firebase để lấy thông tin sản phẩm
+        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("products").child(productId);
+        productRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Product product = dataSnapshot.getValue(Product.class);
+
+                // Cập nhật thông tin sản phẩm lên các view
+                if (product != null) {
+                    Glide.with(ProductDetailActivity.this)
+                            .load(product.getImageUrl())
+                            .placeholder(R.drawable.white_product)
+                            .error(R.drawable.white_product)
+                            .into(productImage);
+
+                    productName.setText(product.getName());
+                    productPrice.setText(product.getPrice() + " VND");
+                    productDescription.setText(product.getDescription());
+                }
+            };
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi
+                Log.e("ViewProductActivity", "Error loading product", databaseError.toException());
+            }
+        });
+
+        //Ẩn title ToolBar
+        //        if (getSupportActionBar() != null) {
+        //            getSupportActionBar().setTitle("");
+        //        }
 
         //Phần xử lý cho load thông tin bình luận, sản phẩm liên quan
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
@@ -52,8 +96,8 @@ public class ProductDetailActivity extends BaseActivity {
         commentList.add(new Comment("John Doe", "Great product!"));
         commentList.add(new Comment("Jane Smith", "I really like it."));
 
-        relatedProductList.add(new Product(1, R.drawable.product_1, "Áo Len Nữ", "150.000 vnđ"));
-        relatedProductList.add(new Product(2, R.drawable.product_2,"Áo Khoác Nam", "250.000 vnđ"));
+//        relatedProductList.add(new Product(1, R.drawable.product_1, "Áo Len Nữ", "150.000 vnđ"));
+//        relatedProductList.add(new Product(2, R.drawable.product_2,"Áo Khoác Nam", "250.000 vnđ"));
 
         commentAdapter = new CommentAdapter(commentList);
         relatedProductAdapter = new RelatedProductAdapter(relatedProductList);
