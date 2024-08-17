@@ -13,14 +13,22 @@ import java.util.List;
 public class CartManager {
     private static final String PREFS_NAME = "CART_PREFS";
     private static final String CART_KEY = "CART_ITEMS";
-
+    private static CartManager instance;
     private SharedPreferences sharedPreferences;
     private Gson gson;
+    private CartUpdateListener cartUpdateListener;
 
     //Hàm khởi tạo quản lý giỏ hàng
     public CartManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         gson = new Gson();
+    }
+
+    public static CartManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new CartManager(context.getApplicationContext());
+        }
+        return instance;
     }
 
     //Hàm xử lý thêm một sản phẩm vào giỏ hàng
@@ -62,6 +70,8 @@ public class CartManager {
         String json = gson.toJson(cart);
         editor.putString(CART_KEY, json);
         editor.apply();
+
+        notifyCartUpdated();
     }
 
     //Hàm xử lý cập nhật số lượng của các sản phẩm trong giỏ
@@ -87,4 +97,21 @@ public class CartManager {
         }
         saveCart(cart);
     }
+
+    public void setCartUpdateListener(CartUpdateListener listener) {
+        this.cartUpdateListener = listener;
+    }
+
+    // Notify listener about cart update
+    public void notifyCartUpdated() {
+        if (cartUpdateListener != null) {
+            cartUpdateListener.onCartUpdated(getCartItemCount());
+        }
+    }
+
+    // Get the total number of items in the cart
+    public int getCartItemCount() {
+        return getCart().stream().mapToInt(CartItem::getQuantity).sum();
+    }
+
 }

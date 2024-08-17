@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import Common.CartUpdateListener;
 import Entities.CartItem;
 import java.util.List;
 
@@ -21,11 +23,14 @@ public class CartAdapter extends BaseAdapter {
     private CartManager cartManager;
     private OnQuantityChangeListener quantityChangeListener;
 
-    public CartAdapter(Context context, List<CartItem> cartItems, CartManager cartManager, OnQuantityChangeListener quantityChangeListener) {
+    private CartUpdateListener cartUpdateListener;
+
+    public CartAdapter(Context context, List<CartItem> cartItems, CartManager cartManager, OnQuantityChangeListener quantityChangeListener, CartUpdateListener cartUpdateListener) {
         this.context = context;
         this.cartItems = cartItems;
         this.cartManager = cartManager;
         this.quantityChangeListener = quantityChangeListener;
+        this.cartUpdateListener = cartUpdateListener;
     }
 
     @Override
@@ -80,6 +85,8 @@ public class CartAdapter extends BaseAdapter {
                     quantityChangeListener.onQuantityChanged();
                 }
                 notifyDataSetChanged();
+                cartManager.setCartUpdateListener(cartUpdateListener);
+                cartManager.notifyCartUpdated();
             }
         });
 
@@ -95,6 +102,8 @@ public class CartAdapter extends BaseAdapter {
                         quantityChangeListener.onQuantityChanged();
                     }
                     notifyDataSetChanged();
+                    cartManager.setCartUpdateListener(cartUpdateListener);
+                    cartManager.notifyCartUpdated();
                 }
             }
         });
@@ -109,6 +118,8 @@ public class CartAdapter extends BaseAdapter {
                     quantityChangeListener.onQuantityChanged();
                 }
                 notifyDataSetChanged();
+                cartManager.setCartUpdateListener(cartUpdateListener);
+                cartManager.notifyCartUpdated();
             }
         });
 
@@ -117,4 +128,5 @@ public class CartAdapter extends BaseAdapter {
     public interface OnQuantityChangeListener {
         void onQuantityChanged();
     }
+
 }

@@ -38,19 +38,22 @@ public class ProductDetailActivity extends BaseActivity {
     private List<Product> relatedProductList;
     private Button addToCartButton;
     private CartManager cartManager;
-
     private Product product;
-
+    private int currentQuantitySum = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+        cartManager = CartManager.getInstance(this);
+        cartManager.setCartUpdateListener(this);
+
+
 
         String productId = getIntent().getStringExtra("PRODUCT_ID");
-
         // Lấy các view
         ImageView productImage = findViewById(R.id.productImage);
         TextView productName = findViewById(R.id.productName);
+        TextView productStock = findViewById(R.id.productStock);
         TextView productPrice = findViewById(R.id.productPrice);
         TextView productDescription = findViewById(R.id.productDescription);
 
@@ -71,6 +74,7 @@ public class ProductDetailActivity extends BaseActivity {
 
                     productName.setText(product.getName());
                     productPrice.setText(product.getPrice() + " VND");
+                    productStock.setText("Còn hàng: " + product.getStock() +" cái");
                     productDescription.setText(product.getDescription());
                 }
             };
@@ -110,24 +114,56 @@ public class ProductDetailActivity extends BaseActivity {
         relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         relatedProductsRecyclerView.setAdapter(relatedProductAdapter);
 
+        TextView itemIncrease = findViewById(R.id.product_item_increase);
+        TextView itemDecrease = findViewById(R.id.product_item_decrease);
+        final TextView quantityView = findViewById(R.id.product_item_quantity);
+        currentQuantitySum = Integer.parseInt(quantityView.getText().toString());
+        //Phần xử lý khi click vào nút tăng số lượng sản phẩm
+        itemIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(quantityView.getText().toString());
+                if(currentQuantity < product.getStock())
+                {
+                  quantityView.setText(String.valueOf(currentQuantity + 1));
+                  currentQuantitySum = currentQuantity + 1;
+                }else {
+                    Snackbar.make(findViewById(android.R.id.content), "Bạn không thể mua quá số lượng tồn kho của sản phẩm!", Snackbar.LENGTH_LONG)
+                            .setAction("OK", msg -> {
+                            })
+                            .show();
+                }
+            }
+        });
+
+        //Phần xử lý khi click vào nút giảm số lượng sản phẩm
+        itemDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(quantityView.getText().toString());
+                if(currentQuantity > 1) {
+                    quantityView.setText(String.valueOf(currentQuantity - 1));
+                    currentQuantitySum = currentQuantity - 1;
+                }
+            }
+        });
+
         //Phần xử lý khi click thêm sản phẩm vào giỏ
-        cartManager = new CartManager(this);
         addToCartButton = findViewById(R.id.addToCartButton);
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a new cart item
                 CartItem item = new CartItem(
-                        productId, // Hoặc sử dụng product.getId() nếu có phương thức này
+                        productId,
                         product.getName(),
-                        1, // Số lượng mặc định là 1
-                        Double.parseDouble(product.getPrice()), // Giá sản phẩm
+                        currentQuantitySum,
+                        Double.parseDouble(product.getPrice()),
                         product.getImageUrl()
                 );
 
                 // Add the item to the cart
                 cartManager.addToCart(item);
-
                 // Optional: Notify the user
                 Snackbar.make(findViewById(android.R.id.content), "Thêm vào giỏ thành công", Snackbar.LENGTH_LONG)
                         .setAction("OK", msg -> {
@@ -142,5 +178,12 @@ public class ProductDetailActivity extends BaseActivity {
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartManager.setCartUpdateListener(this);
+        cartManager.notifyCartUpdated();
     }
 }
