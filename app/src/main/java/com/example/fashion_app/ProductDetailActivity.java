@@ -11,9 +11,9 @@ import java.util.List;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +39,8 @@ public class ProductDetailActivity extends BaseActivity {
     private Button addToCartButton;
     private CartManager cartManager;
 
+    private Product product;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,7 @@ public class ProductDetailActivity extends BaseActivity {
         productRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Product product = dataSnapshot.getValue(Product.class);
+                product = dataSnapshot.getValue(Product.class);
 
                 // Cập nhật thông tin sản phẩm lên các view
                 if (product != null) {
@@ -115,13 +117,23 @@ public class ProductDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 // Create a new cart item
-                CartItem item = new CartItem("2", "Product Name", 1, 9.99);
+                CartItem item = new CartItem(
+                        productId, // Hoặc sử dụng product.getId() nếu có phương thức này
+                        product.getName(),
+                        1, // Số lượng mặc định là 1
+                        Double.parseDouble(product.getPrice()), // Giá sản phẩm
+                        product.getImageUrl()
+                );
 
                 // Add the item to the cart
                 cartManager.addToCart(item);
 
                 // Optional: Notify the user
-                Toast.makeText(ProductDetailActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content), "Thêm vào giỏ thành công", Snackbar.LENGTH_LONG)
+                        .setAction("OK", msg -> {
+                        })
+                        .show();
+
             }
         });
     }
