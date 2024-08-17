@@ -29,7 +29,8 @@
         android:id="@+id/action_cart"
         android:icon="@drawable/cart"
         android:title="Cart"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:actionLayout="@layout/menu_cart_layout" />/>
 
     <item
         android:id="@+id/action_logAdmin"

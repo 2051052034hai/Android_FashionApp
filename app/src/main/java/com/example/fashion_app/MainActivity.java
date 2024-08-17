@@ -21,20 +21,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import Adapter.ProductAdapter;
 import Common.BaseActivity;
+import Common.CartManager;
+import Common.CartUpdateListener;
 import Entities.Product;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements CartUpdateListener {
     private RecyclerView recyclerView;
     private ProductAdapter productAdapter;
     private SearchView searchView;
     private EditText editText;
     private DatabaseReference productsRef;
     private List<Product> productList;
+    private CartManager cartManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        cartManager = new CartManager(this);
+        cartManager = CartManager.getInstance(this);
+        cartManager.setCartUpdateListener(this);
         //Set up RecyclerView
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -60,6 +65,7 @@ public class MainActivity extends BaseActivity {
         });
         recyclerView.setAdapter(productAdapter);
     }
+
 
     private void fetchProductsFromFirebase() {
         productsRef.addValueEventListener(new ValueEventListener() {
@@ -89,4 +95,10 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main; // Trả về layout của activity
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartManager.setCartUpdateListener(this);
+        cartManager.notifyCartUpdated();
+    }
 }

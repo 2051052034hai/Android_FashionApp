@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +17,7 @@ import com.google.firebase.database.Transaction;
 import Common.BaseActivity;
 import Common.CartManager;
 import Adapter.CartAdapter;
+import Common.CartUpdateListener;
 import Entities.CartItem;
 
 import java.util.ArrayList;
@@ -34,10 +34,15 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
     private CartAdapter cartAdapter;
     private DatabaseReference databaseReference;
     private Button checkout_button;
+    private CartUpdateListener cartUpdateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        cartManager = CartManager.getInstance(this);
+        cartManager.setCartUpdateListener(this);
+        cartUpdateListener = this;
+
         databaseReference = FirebaseDatabase.getInstance().getReference("products");
 
         settingDataCart();
@@ -82,7 +87,7 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
         cartManager = new CartManager(this);
         List<CartItem> cartItems = cartManager.getCart();
 
-        cartAdapter = new CartAdapter(this, cartItems, cartManager,this);
+        cartAdapter = new CartAdapter(this, cartItems, cartManager,this, this);
         cartListView.setAdapter(cartAdapter);
     }
 
@@ -90,7 +95,10 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
     private void performCheckout() {
         final List<CartItem> cartItems = cartManager.getCart();
         if (cartItems.isEmpty()) {
-            Toast.makeText(this, "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "Giỏ hàng trống", Snackbar.LENGTH_LONG)
+                    .setAction("OK", v -> {
+                    })
+                    .show();
             return;
         }
 
@@ -131,9 +139,7 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
                 for (int i = 0; i < cartItems.size(); i++) {
                     CartItem item = cartItems.get(i);
                     MutableData productData = mutableData.child(item.getProductId()).child("stock");
-
                     Long currentQuantity = productData.getValue(Long.class);
-
 
                     if (currentQuantity == null) {
                         return Transaction.abort();
@@ -168,6 +174,8 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
                             cartAdapter.notifyDataSetChanged();
                             updateTotal();
                             settingDataCart();
+                            cartManager.setCartUpdateListener(cartUpdateListener);
+                            cartManager.notifyCartUpdated();
                             Snackbar.make(findViewById(android.R.id.content), "Đặt hàng thành công", Snackbar.LENGTH_LONG)
                                     .setAction("OK", v -> {
                                     })
@@ -189,6 +197,13 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartManager.setCartUpdateListener(this);
+        cartManager.notifyCartUpdated();
     }
 
 }

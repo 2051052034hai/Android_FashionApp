@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +24,35 @@ import com.example.fashion_app.ProductListActivity;
 import com.example.fashion_app.R;
 import com.example.fashion_app.RegisterActivity;
 
-public abstract class BaseActivity extends AppCompatActivity {
 
+public abstract class BaseActivity extends AppCompatActivity implements CartUpdateListener{
+    private CartManager cartManager;
+    private boolean isMenuCreated = false;
+    private TextView cartBadge;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
+        cartManager = CartManager.getInstance(this);
+        cartManager.setCartUpdateListener(this);
+    }
+
+    @Override
+    public void onCartUpdated(int itemCount) {
+        if (isMenuCreated) {
+            runOnUiThread(() -> updateCartBadge(itemCount));
+        }
+    }
+
+    private void updateCartBadge(int itemCount) {
+        if (cartBadge != null) {
+            if (itemCount > 0) {
+                cartBadge.setVisibility(View.VISIBLE);
+                cartBadge.setText(String.valueOf(itemCount));
+            } else {
+                cartBadge.setText("0");
+            }
+        }
     }
 
     @Override
@@ -38,8 +63,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         MenuItem cartItem = menu.findItem(R.id.action_cart);
 
-        androidx.appcompat.widget.SearchView searchView = (SearchView) searchItem.getActionView();
+        View actionView = cartItem.getActionView();
 
+        if (actionView != null) {
+            cartBadge = actionView.findViewById(R.id.cart_badge);
+            ImageView cartIcon = actionView.findViewById(R.id.cart_icon);
+
+            // Set up click listener for the cart icon
+            cartIcon.setOnClickListener(v -> {
+                // Handle cart icon click
+                onOptionsItemSelected(cartItem);
+            });
+
+            isMenuCreated = true;
+            // Ensure the badge is updated
+            onCartUpdated(cartManager.getCartItemCount());
+        }
+
+        androidx.appcompat.widget.SearchView searchView = (SearchView) searchItem.getActionView();
         // Thiết lập trình lắng nghe thay đổi tiêu điểm cho SearchView
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
@@ -135,5 +176,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartManager.notifyCartUpdated();
+    }
     protected abstract int getLayoutResourceId();
 }
