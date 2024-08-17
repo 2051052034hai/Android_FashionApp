@@ -160,8 +160,8 @@ public class AddProductActivity extends AppCompatActivity {
                     Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
                         productName.setText(product.getName());
-                        productPrice.setText(product.getPrice());
-                        productStock.setText(product.getStock());
+                        productPrice.setText(product.getPrice().toString());
+                        productStock.setText(Math.toIntExact(product.getStock()));
                         productDescription.setText(product.getDescription());
                         txtViewUrlImg.setText(product.getImageUrl());
                         // Lấy URL của ảnh từ product

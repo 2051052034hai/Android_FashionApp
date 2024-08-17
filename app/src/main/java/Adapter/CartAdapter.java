@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import Entities.CartItem;
 import java.util.List;
+
+import com.bumptech.glide.Glide;
 import com.example.fashion_app.R;
 import Common.CartManager ;
 
@@ -56,11 +58,15 @@ public class CartAdapter extends BaseAdapter {
         TextView itemIncrease = convertView.findViewById(R.id.cart_item_increase);
         TextView itemDecrease = convertView.findViewById(R.id.cart_item_decrease);
 
-        // Load image if you have a resource or URL for it
-        // imageView.setImageResource(R.drawable.ic_product_image); // Use an actual image
+        //Tải hình ảnh sản phẩm lên
+        Glide.with(convertView.getContext())
+                .load(item.getImageUrl())
+                .placeholder(R.drawable.white_product)
+                .error(R.drawable.white_product)
+                .into(imageView);
 
         nameView.setText(item.getProductName());
-        priceView.setText(String.format("Price: %.2fđ", item.getPrice()));
+        priceView.setText(String.format("%.2f đ", item.getPrice()));
         quantityView.setText(String.format("x%d", item.getQuantity()));
 
         // Handle quantity increase
