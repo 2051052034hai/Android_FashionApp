@@ -2,6 +2,7 @@ package com.example.fashion_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;  // Nhập lớp View
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editText_Password;
     private Button saveButton;
     private TextView forgotPasswordTextView;
+    private TextView registerTextView;
     private FirebaseAuth mAuth;
 
     @Override
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         editText_Password = findViewById(R.id.textViewPassword);
         saveButton = findViewById(R.id.btnLogin);
         forgotPasswordTextView = findViewById(R.id.textViewForgotPassword);
+        registerTextView = findViewById(R.id.textViewRegister);
 
         // Khởi tạo Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -80,5 +83,12 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
+
+        // Thiết lập sự kiện nhấp vào TextView Sign Up
+        registerTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
     }
+
 }

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Akyo shop</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="app_description">If you want to buy cheap, beautiful shirts, come to us :))</string>
     <string name="app_search">Bạn muốn tìm gì..</string>
     <string name="search">Tìm kiếm</string>

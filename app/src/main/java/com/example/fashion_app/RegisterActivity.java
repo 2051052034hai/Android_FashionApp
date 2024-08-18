@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button registerButton;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private TextView loginTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_activity);
 
         // Liên kết các thành phần giao diện
+        loginTextView = findViewById(R.id.textViewLogin);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextUsername = findViewById(R.id.etUsername);  // Thêm trường tên người dùng
@@ -102,5 +105,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         });
+        // Thiết lập sự kiện nhấp vào TextView Sign Up
+        loginTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
+
+
 }
