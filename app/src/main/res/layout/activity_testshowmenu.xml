@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Thanh công cụ (Toolbar) -->
+    <androidx.appcompat.widget.Toolbar
+        android:backgroundTint="@color/blue"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetStartWithNavigation="0dp"
+        android:padding="16dp">
+
+        <!-- Nút menu nằm trên thanh công cụ -->
+        <ImageButton
+            android:id="@+id/menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="10dp"
+            android:src="@drawable/ic_menu"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Khu vực chứa menu sổ ra -->
+    <RelativeLayout
+        android:id="@+id/menu_layout"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="75dp"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        android:background="@android:color/holo_blue_dark">
+
+        <!-- Nội dung của menu -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Nội dung con 1 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_home"
+                    android:layout_weight="1" />
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trang chủ"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+
+            <!-- Nội dung con 2 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_introduction"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gioi thiệu"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+            <!-- Nội dung con 3 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_orther"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Khác"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

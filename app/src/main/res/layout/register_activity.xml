@@ -23,9 +23,10 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    app:hintTextColor="@color/black"
+    android:textColorHint="@color/white"
     android:textSize="16sp"
-    app:startIconDrawable="@drawable/ic_user">
+    app:startIconDrawable="@drawable/ic_user"
+    app:startIconTint="@color/white">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etUsername"
@@ -33,6 +34,7 @@ android:padding="15dp">
         android:layout_height="wrap_content"
         android:hint="Username"
         android:textSize="16sp"
+        android:textColor="@color/white"
         android:inputType="text"
         android:importantForAccessibility="yes" />
 </com.google.android.material.textfield.TextInputLayout>
@@ -41,15 +43,17 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    app:hintTextColor="@color/black"
+    android:textColorHint="@color/white"
     android:textSize="16sp"
-    app:startIconDrawable="@drawable/ic_email">
+    app:startIconDrawable="@drawable/ic_email"
+    app:startIconTint="@color/white">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etEmail"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:inputType="textEmailAddress"
         android:importantForAccessibility="yes" />
@@ -59,15 +63,17 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    app:hintTextColor="@color/black"
+    android:textColorHint="@color/white"
     android:textSize="16sp"
-    app:startIconDrawable="@drawable/ic_password">
+    app:startIconDrawable="@drawable/ic_password"
+    app:startIconTint="@color/white">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:inputType="textPassword"
         android:importantForAccessibility="yes" />
@@ -77,15 +83,17 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    app:hintTextColor="@color/black"
+    android:textColorHint="@color/white"
     android:textSize="16sp"
-    app:startIconDrawable="@drawable/ic_password">
+    app:startIconDrawable="@drawable/ic_password"
+    app:startIconTint="@color/white">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etConfirmPassword"
+        android:id="@+id/editTextConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Confirm Password"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:inputType="textPassword"
         android:importantForAccessibility="yes" />
@@ -116,7 +124,7 @@ android:padding="15dp">
 
     <TextView
         android:textColor="@color/blue_400"
-        android:id="@+id/textViewLogin2"
+        android:id="@+id/textViewLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log in"
