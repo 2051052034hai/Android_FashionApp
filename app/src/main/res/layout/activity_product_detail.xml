@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/productImage"
                 android:layout_width="match_parent"
-                android:layout_height="229dp"
+                android:layout_height="400dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"
@@ -44,13 +44,65 @@
                 android:textColor="@color/colorAccent"
                 android:text="200.000 vnđ" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/product_item_decrease"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_400"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/white"
+                    android:text="-"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/product_item_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="14sp"
+                    android:layout_marginHorizontal="8dp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/product_item_increase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="18sp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:background="@color/purple_400"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/productStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="" />
+
             <TextView
                 android:id="@+id/productDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textSize="14sp"
-                android:text="This is a detailed description of the product. It includes all the features and benefits that the product offers." />
+                android:textColor="@color/black"
+                android:text="" />
 
             <Button
                 android:id="@+id/addToCartButton"

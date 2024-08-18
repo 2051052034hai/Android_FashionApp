@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Product Details -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Product category name -->
+        <TextView
+            android:id="@+id/productCat_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Tên loại sản phẩm"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingRight="25dp"
+            android:gravity="center_vertical"/>
+
+        <!-- Product category description-->
+        <TextView
+            android:id="@+id/productCat_Description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:text="Tên loại sản phẩm"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <!--Action Button with Dropdown Menu -->
+    <TextView
+        android:id="@+id/btn_DropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Actions" />
+
+</LinearLayout>

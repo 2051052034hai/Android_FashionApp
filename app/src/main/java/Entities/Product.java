@@ -1,50 +1,82 @@
 package Entities;
 
 public class Product {
-    private int ID;
-    private int imageResource;
-    private String productName;
-    private String productPrice;
+    private String id;
+    private String name;
+    private String categoryId;
+    private String description;
+    private String price;
+    private long stock;
+    private String imageUrl;
 
-    private int StockQuantity;
+    // Default constructor required for calls to DataSnapshot.getValue(Product.class)
+    public Product() {}
 
-    public Product(int ID, int imageResource, String productName, String productPrice) {
-        this.ID = ID;
-        this.imageResource = imageResource;
-        this.productName = productName;
-        this.productPrice = productPrice;
+    // Parameterized constructor
+    public Product(String id, String name, String categoryId, String description, String price, long stock, String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.categoryId = categoryId;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
     }
 
-    public int getImageResource() {
-        return imageResource;
+    // Getters and setters for each field
+    public String getId() {
+        return id;
     }
 
-    public void setImageResource(int imageResource) {
-        this.imageResource = imageResource;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public String getProductPrice() {
-        return productPrice;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void setProductPrice(String productPrice) {
-        this.productPrice = productPrice;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    //Lấy sản phẩm theo ID
-    public int getId() {
-        return ID;
+    public String getDescription() {
+        return description;
     }
 
-    public int getStockQuantity() {
-        return StockQuantity;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public long getStock() {
+        return stock;
+    }
+
+    public void setStock(long stock) {
+        this.stock = stock;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
