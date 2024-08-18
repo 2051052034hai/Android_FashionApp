@@ -33,7 +33,7 @@
 
 
 
-        <!--        &lt;!&ndash;   Test thử menu show &ndash;&gt;-->
+<!--                &lt;!&ndash;   Test thử menu show &ndash;&gt;-->
 <!--        <activity-->
 <!--            android:name=".TestShowMenuActivity"-->
 <!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
