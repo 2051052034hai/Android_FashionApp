@@ -160,8 +160,8 @@ public class AddProductActivity extends AppCompatActivity {
                     Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
                         productName.setText(product.getName());
-                        productPrice.setText(product.getPrice().toString());
-                        productStock.setText(Math.toIntExact(product.getStock()));
+                        productPrice.setText(product.getPrice());
+                        productStock.setText(String.valueOf(product.getStock()));
                         productDescription.setText(product.getDescription());
                         txtViewUrlImg.setText(product.getImageUrl());
                         // Lấy URL của ảnh từ product
@@ -292,7 +292,7 @@ public class AddProductActivity extends AppCompatActivity {
     private void saveProductData(String imageUrl) {
         String name = Objects.requireNonNull(productName.getText()).toString();
         String price = Objects.requireNonNull(productPrice.getText()).toString();
-        String stock = Objects.requireNonNull(productStock.getText()).toString();
+        long stock = Objects.requireNonNull(Long.parseLong(productStock.getText().toString()));
         String description = Objects.requireNonNull(productDescription.getText()).toString();
 
         // Kiểm tra nếu productId đã tồn tại (chế độ cập nhật) hoặc không (chế độ thêm mới)
