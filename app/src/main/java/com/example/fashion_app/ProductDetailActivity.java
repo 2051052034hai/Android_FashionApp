@@ -1,4 +1,5 @@
 package com.example.fashion_app;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -18,9 +19,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import Adapter.CommentAdapter;
+import Adapter.ProductAdapter;
 import Adapter.RelatedProductAdapter;
 import Common.BaseActivity;
 import Entities.Comment;
@@ -35,7 +38,7 @@ public class ProductDetailActivity extends BaseActivity {
     private CommentAdapter commentAdapter;
     private RelatedProductAdapter relatedProductAdapter;
     private List<Comment> commentList;
-    private List<Product> relatedProductList;
+    private List<Product> relatedProductList = new ArrayList<>();
     private Button addToCartButton;
     private CartManager cartManager;
     private Product product;
@@ -46,8 +49,6 @@ public class ProductDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_product_detail);
         cartManager = CartManager.getInstance(this);
         cartManager.setCartUpdateListener(this);
-
-
 
         String productId = getIntent().getStringExtra("PRODUCT_ID");
         // Lấy các view
@@ -76,6 +77,8 @@ public class ProductDetailActivity extends BaseActivity {
                     productPrice.setText(product.getPrice() + " VND");
                     productStock.setText("Còn hàng: " + product.getStock() +" cái");
                     productDescription.setText(product.getDescription());
+
+                    fetchRelatedProducts(product.getCategoryId(), product.getId());
                 }
             };
             @Override
@@ -94,31 +97,21 @@ public class ProductDetailActivity extends BaseActivity {
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         relatedProductsRecyclerView = findViewById(R.id.relatedProductsRecyclerView);
 
+        //Load comment sản phẩm
         commentList = new ArrayList<>();
-        relatedProductList = new ArrayList<>();
-
-        // Populate the lists with data
         // Example data
         commentList.add(new Comment("John Doe", "Great product!"));
         commentList.add(new Comment("Jane Smith", "I really like it."));
 
-//        relatedProductList.add(new Product(1, R.drawable.product_1, "Áo Len Nữ", "150.000 vnđ"));
-//        relatedProductList.add(new Product(2, R.drawable.product_2,"Áo Khoác Nam", "250.000 vnđ"));
-
         commentAdapter = new CommentAdapter(commentList);
-        relatedProductAdapter = new RelatedProductAdapter(relatedProductList);
-
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         commentsRecyclerView.setAdapter(commentAdapter);
 
-        relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        relatedProductsRecyclerView.setAdapter(relatedProductAdapter);
-
+        //Phần xử lý khi click vào nút tăng số lượng sản phẩm
         TextView itemIncrease = findViewById(R.id.product_item_increase);
         TextView itemDecrease = findViewById(R.id.product_item_decrease);
         final TextView quantityView = findViewById(R.id.product_item_quantity);
         currentQuantitySum = Integer.parseInt(quantityView.getText().toString());
-        //Phần xử lý khi click vào nút tăng số lượng sản phẩm
         itemIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +166,38 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
     }
+
+    // Load dữ liệu các sản phẩm liên quan
+    private void fetchRelatedProducts(String categoryID, String currentProductID) {
+        DatabaseReference productCategoryRef = FirebaseDatabase.getInstance().getReference("products");
+
+        // Query to filter products by categoryID
+        Query query = productCategoryRef.orderByChild("categoryId").equalTo(categoryID);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                relatedProductList.clear();
+                for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                    Product relatedProduct = productSnapshot.getValue(Product.class);
+
+                    if (relatedProduct != null && !relatedProduct.getId().equals(currentProductID)) {
+                        relatedProductList.add(relatedProduct);
+                    }
+                }
+                // Ensure correct context is used
+                relatedProductAdapter = new RelatedProductAdapter(relatedProductList, ProductDetailActivity.this);
+                relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(ProductDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                relatedProductsRecyclerView.setAdapter(relatedProductAdapter);
+                relatedProductAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("ViewProductActivity", "Error loading related products", databaseError.toException());
+            }
+        });
+    }
+
 
     // Trả về layout ToolBar cho màn hình
     @Override
