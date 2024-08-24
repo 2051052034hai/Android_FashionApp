@@ -24,9 +24,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import Adapter.ProductCategoryListAdapter;
+import Common.DrawerLayoutActivity;
 import Entities.ProductCategory;
 
-public class ProductCategoryListActivity extends AppCompatActivity {
+public class ProductCategoryListActivity extends DrawerLayoutActivity {
 
     private RecyclerView recyclerViewProductCategoryList;
     private ProductCategoryListAdapter productCategoryListAdapter;
@@ -37,7 +38,7 @@ public class ProductCategoryListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_category_management);
+        getLayoutInflater().inflate(R.layout.activity_product_category_management, findViewById(R.id.content_frame));
 
         recyclerViewProductCategoryList = findViewById(R.id.recycler_view_productCategorydList);
         recyclerViewProductCategoryList.setLayoutManager(new LinearLayoutManager(this));

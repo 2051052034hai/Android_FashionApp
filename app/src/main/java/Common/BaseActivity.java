@@ -161,14 +161,9 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
                 intent = new Intent(this, ProductListActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_login:
-                //Chuyển đến LoginActivity khi nhấp vào action_login
+            case R.id.action_logout:
+                //Chuyển đến LoginActivity khi nhấp vào action_logout
                 intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_register:
-                //Chuyển đến RegisterActivity khi nhấp vào action_register
-                intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 return true;
             default:
