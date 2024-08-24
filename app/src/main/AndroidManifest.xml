@@ -21,7 +21,7 @@
 
 <!--         Activity chính -->
         <activity
-            android:name="com.example.fashion_app.MainActivity"
+            android:name="com.example.fashion_app.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Fashion_App">
             <intent-filter>
@@ -29,27 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity-->
-<!--            android:name="com.example.fashion_app.ProductListActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
-<!--                &lt;!&ndash;   Test thử menu show &ndash;&gt;-->
-<!--        <activity-->
-<!--            android:name=".TestShowMenuActivity"-->
-<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
+                <!--   Test thử menu show -->
 
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - Begin Add-->
         <activity
@@ -58,9 +39,9 @@
         <activity
             android:name="com.example.fashion_app.CartActivity"
             android:exported="true" />
-<!--        <activity-->
-<!--            android:name="com.example.fashion_app.ProductListActivity"-->
-<!--            android:exported="true" />-->
+        <activity
+            android:name="com.example.fashion_app.ProductListActivity"
+            android:exported="true" />
         <activity
             android:name="com.example.fashion_app.ProductCategoryListActivity"
             android:exported="true" />
@@ -71,7 +52,7 @@
             android:name="com.example.fashion_app.AddProductCategoryActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.fashion_app.LoginActivity"
+            android:name="com.example.fashion_app.MainActivity"
             android:exported="true" />
         <activity
             android:name="com.example.fashion_app.RegisterActivity"
