@@ -9,19 +9,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import Entities.User;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText editTextEmail, editTextPassword, editTextUsername;
+    private EditText editTextEmail, editTextPassword, editTextUsername, editTextConfirmPassword;
     private Button registerButton;
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private TextView loginTextView;
 
@@ -30,87 +33,115 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
 
-        // Liên kết các thành phần giao diện
-        loginTextView = findViewById(R.id.textViewLogin);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        editTextUsername = findViewById(R.id.etUsername);  // Thêm trường tên người dùng
-        registerButton = findViewById(R.id.btnRegister);
-        mAuth = FirebaseAuth.getInstance();
+        // Initialize UI components
+        initUI();
+
+        // Set up Firebase authentication and database
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        registerButton.setOnClickListener(v -> {
-            String email = editTextEmail.getText().toString().trim();
-            String password = editTextPassword.getText().toString().trim();
-            String username = editTextUsername.getText().toString().trim();  // Lấy giá trị tên người dùng
+        // Set up click listener for the register button
+        registerButton.setOnClickListener(v -> registerUser());
 
-            if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Vui lòng nhập đầy đủ !!!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Kiểm tra độ dài mật khẩu
-            if (password.length() < 6) {
-                Toast.makeText(RegisterActivity.this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Kiểm tra xem email đã tồn tại hay chưa
-            mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    boolean emailExists = !task.getResult().getSignInMethods().isEmpty();
-                    if (emailExists) {
-                        Toast.makeText(RegisterActivity.this, "Địa chỉ email đã được sử dụng bởi một tài khoản khác.", Toast.LENGTH_LONG).show();
-                    } else {
-                        // Đăng ký người dùng với Firebase Authentication
-                        mAuth.createUserWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(this, task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        if (user != null) {
-                                            // Lưu thông tin người dùng vào Realtime Database
-                                            User userData = new User(username, email);
-                                            mDatabase.child("users").child(user.getUid()).setValue(userData)
-                                                    .addOnCompleteListener(task2 -> {
-                                                        if (task2.isSuccessful()) {
-                                                            Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                                                            //Chuyển hướng hoặc thực hiện hành động khác
-                                                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                                             startActivity(intent);
-                                                            // finish();
-                                                        } else {
-                                                            String errorMessage = task2.getException() != null ? task2.getException().getMessage() : "Unknown error";
-                                                            Toast.makeText(RegisterActivity.this, "Failed to save user data: " + errorMessage, Toast.LENGTH_LONG).show();
-                                                            Log.e("RegisterActivity", "Failed to save user data", task2.getException());
-                                                        }
-                                                    });
-                                        }
-                                    } else {
-                                        if (task1.getException() instanceof FirebaseAuthUserCollisionException) {
-                                            // Địa chỉ email đã được sử dụng
-                                            Toast.makeText(RegisterActivity.this, "Địa chỉ email đã được sử dụng bởi một tài khoản khác.", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            // Các lỗi khác
-                                            String errorMessage = task1.getException() != null ? task1.getException().getMessage() : "Unknown error";
-                                            Toast.makeText(RegisterActivity.this, "Registration failed: " + errorMessage, Toast.LENGTH_LONG).show();
-                                        }
-                                        Log.e("RegisterActivity", "Registration failed", task1.getException());
-                                    }
-                                });
-                    }
-                } else {
-                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                    Toast.makeText(RegisterActivity.this, "Error checking email: " + errorMessage, Toast.LENGTH_LONG).show();
-                    Log.e("RegisterActivity", "Error checking email", task.getException());
-                }
-            });
-        });
-        // Thiết lập sự kiện nhấp vào TextView Sign Up
+        // Set up click listener for the login text view
         loginTextView.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
     }
 
+    private void initUI() {
+        loginTextView = findViewById(R.id.textViewLogin);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextUsername = findViewById(R.id.etUsername);
+        registerButton = findViewById(R.id.btnRegister);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+    }
 
+    //Xử lý đăng ký User
+    private void registerUser() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        String username = editTextUsername.getText().toString().trim();
+        String confirmPassword = editTextConfirmPassword.getText().toString().trim();
+        int role = 1;
+
+        // Validate inputs
+        if (!validateInputs(email, password, username, confirmPassword)) return;
+        // Hash the password
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu hay chưa
+        mDatabase.child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Email đã tồn tại
+                    showToast("Địa chỉ email đã được sử dụng bởi một tài khoản khác.");
+                } else {
+                    // Email chưa tồn tại, lưu người dùng vào cơ sở dữ liệu
+                    saveUser(email, hashedPassword, username, role);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                handleFirebaseError(databaseError.toException(), "Error checking email");
+            }
+        });
+    }
+
+    //Xử lý check bắt buộc nhập các cột
+    private boolean validateInputs(String email, String password, String username, String confirmPassword) {
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
+            showToast("Vui lòng nhập đầy đủ !!!");
+            return false;
+        }
+
+        if (password.length() < 6) {
+            showToast("Mật khẩu phải có ít nhất 6 ký tự");
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showToast("Mật khẩu xác nhận không khớp");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Lưu thông tin User vào Firebase Realtime Database
+    private void saveUser(String email, String password, String username, int role) {
+        String userId = mDatabase.push().getKey();
+        User userData = new User(userId, username, email, password, role);
+
+        // Lưu dữ liệu người dùng vào bảng "users" trong Firebase Realtime Database
+        mDatabase.child("users").child(userId).setValue(userData)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Thông báo thành công và chuyển hướng tới LoginActivity
+                        Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    } else {
+                        // Xử lý lỗi khi lưu dữ liệu
+                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
+                        Toast.makeText(RegisterActivity.this, "Failed to save user data: " + errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("RegisterActivity", "Failed to save user data", task.getException());
+                    }
+                });
+    }
+
+    //Hiển thị thông báo
+    private void showToast(String message) {
+        Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    //Xử lý bắt lỗi
+    private void handleFirebaseError(Exception exception, String logMessage) {
+        String errorMessage = exception != null ? exception.getMessage() : "Unknown error";
+        showToast(logMessage + ": " + errorMessage);
+        Log.e("RegisterActivity", logMessage, exception);
+    }
 }
