@@ -54,9 +54,9 @@
         <activity
             android:name="com.example.fashion_app.MainActivity"
             android:exported="true" />
-        <activity
-            android:name="com.example.fashion_app.RegisterActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name="com.example.fashion_app.LoginActivity"-->
+<!--            android:exported="true" />-->
         <activity
                 android:name="com.example.fashion_app.ForgotPasswordActivity"
                 android:exported="true" />

@@ -8,33 +8,22 @@ android:gravity="center"
 android:orientation="vertical"
 android:padding="15dp">
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/blue_400"
-    android:textColor="@color/white"
-    android:textSize="16sp"
-    android:textAlignment="center"
-    android:gravity="center"
-    android:padding="15dp"
-    android:text="REGISTER"/>
-
 <com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    android:textColorHint="@color/white"
+    android:textColorHint="@color/black"
     android:textSize="16sp"
     app:startIconDrawable="@drawable/ic_user"
-    app:startIconTint="@color/white">
+    app:startIconTint="@color/black">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="Tên đăng nhập"
         android:textSize="16sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:inputType="text"
         android:importantForAccessibility="yes" />
 </com.google.android.material.textfield.TextInputLayout>
@@ -43,17 +32,17 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    android:textColorHint="@color/white"
+    android:textColorHint="@color/black"
     android:textSize="16sp"
     app:startIconDrawable="@drawable/ic_email"
-    app:startIconTint="@color/white">
+    app:startIconTint="@color/black">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:inputType="textEmailAddress"
         android:importantForAccessibility="yes" />
@@ -63,17 +52,17 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
-    android:textColorHint="@color/white"
+    android:textColorHint="@color/black"
     android:textSize="16sp"
     app:startIconDrawable="@drawable/ic_password"
-    app:startIconTint="@color/white">
+    app:startIconTint="@color/black">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:textColor="@color/white"
+        android:hint="Mật khẩu"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:inputType="textPassword"
         android:importantForAccessibility="yes" />
@@ -82,18 +71,18 @@ android:padding="15dp">
 <com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="24dp"
-    android:textColorHint="@color/white"
+    android:layout_marginBottom="20dp"
+    android:textColorHint="@color/black"
     android:textSize="16sp"
     app:startIconDrawable="@drawable/ic_password"
-    app:startIconTint="@color/white">
+    app:startIconTint="@color/black">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:textColor="@color/white"
+        android:hint="Nhập lại mật khẩu"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:inputType="textPassword"
         android:importantForAccessibility="yes" />
@@ -104,7 +93,8 @@ android:padding="15dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
-    android:text="REGISTER"
+    android:padding="10dp"
+    android:text="Đăng ký"
     android:textSize="16sp"
     android:backgroundTint="@color/red"
     android:textColor="@color/white"
@@ -120,17 +110,18 @@ android:padding="15dp">
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account?"/>
+        android:text="Bạn đã có tài khoản? "
+        android:textSize="18sp"/>
 
     <TextView
         android:textColor="@color/blue_400"
         android:id="@+id/textViewLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in"
+        android:text="Đăng nhập"
         android:autoLink="web"
         android:linksClickable="true"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
 

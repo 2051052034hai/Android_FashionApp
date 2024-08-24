@@ -24,6 +24,7 @@ import Common.BaseActivity;
 import Common.CartManager;
 import Common.CartUpdateListener;
 import Entities.Product;
+import Entities.User;
 
 public class MainActivity extends BaseActivity implements CartUpdateListener {
     private RecyclerView recyclerView;
@@ -44,6 +45,11 @@ public class MainActivity extends BaseActivity implements CartUpdateListener {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.requestFocus(); // Đặt focus vào RecyclerView
+
+        User session = User.getInstance();
+        String email = session.getEmail();
+        String username = session.getUserName();
+        String userID = session.getId();
 
         // Initialize Firebase Database reference
         productsRef = FirebaseDatabase.getInstance().getReference("products");

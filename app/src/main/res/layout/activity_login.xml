@@ -8,35 +8,22 @@
     android:orientation="vertical"
     android:padding="15dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blue_400"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="LOGIN"/>
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/black"
         android:textSize="16sp"
         app:startIconDrawable="@drawable/ic_user"
-        app:startIconTint="@color/white">
-
-
+        app:startIconTint="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textViewEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
+            android:hint="Email.."
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:inputType="text"
             android:importantForAccessibility="yes" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -44,19 +31,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:textColorHint="@color/white"
+        android:layout_marginBottom="15dp"
+        android:textColorHint="@color/black"
         android:textSize="16sp"
         app:startIconDrawable="@drawable/ic_password"
-        app:startIconTint="@color/white">
+        app:startIconTint="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textViewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="Mật khẩu.."
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:importantForAccessibility="yes" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -66,11 +53,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:text="SUBMIT"
+        android:text="Đăng nhập"
+        android:padding="10dp"
         android:textSize="16sp"
         android:backgroundTint="@color/red"
         android:textColor="@color/white"
         android:textAllCaps="false" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,16 +110,17 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No account yet?"/>
+            android:textSize="18dp"
+            android:text="Bạn chưa có tài khoản? "/>
         <TextView
             android:textColor="@color/blue_400"
             android:id="@+id/textViewRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="Đăng ký"
             android:autoLink="web"
             android:linksClickable="true"
-            android:textSize="16sp" />
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -139,8 +129,8 @@
         android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot your password?"
+        android:text="Quên mật khẩu?"
         android:autoLink="web"
         android:linksClickable="true"
-        android:textSize="16sp" />
+        android:textSize="18dp" />
 </LinearLayout>
