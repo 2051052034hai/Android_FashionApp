@@ -20,15 +20,20 @@ import androidx.core.content.ContextCompat;
 
 import com.example.fashion_app.CartActivity;
 import com.example.fashion_app.LoginActivity;
+import com.example.fashion_app.MainActivity;
 import com.example.fashion_app.ProductListActivity;
 import com.example.fashion_app.R;
 import com.example.fashion_app.RegisterActivity;
+
+import Entities.User;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements CartUpdateListener{
     private CartManager cartManager;
     private boolean isMenuCreated = false;
     private TextView cartBadge;
+    private User userSession;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +65,37 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
         getMenuInflater().inflate(R.menu.menu_main, menu);
         resizeMenuItemIcons(menu); // Call the method to resize the menu item icons
 
+        //Lấy thông tin user đang đăng nhập
+        userSession = User.getInstance();
+        String userID = userSession.getId();
+        int roleUser = userSession.getRole();
+
         MenuItem searchItem = menu.findItem(R.id.action_search);
         MenuItem cartItem = menu.findItem(R.id.action_cart);
+        MenuItem logAdminItem = menu.findItem(R.id.action_logAdmin);
+        MenuItem signInItem = menu.findItem(R.id.action_signIn);
+        MenuItem signUpItem = menu.findItem(R.id.action_signUp);
+        MenuItem logoutItem = menu.findItem(R.id.action_logout);
+
+        //Xử lý ẩn hiện các item dropdown khi đăng nhập
+        if(userID == null){
+            signInItem.setVisible(true);
+            signUpItem.setVisible(true);
+            logoutItem.setVisible(false);
+        }else {
+            signInItem.setVisible(false);
+            signUpItem.setVisible(false);
+            logoutItem.setVisible(true);
+        }
+
+        if(userID == null && roleUser == 2){
+            logAdminItem.setVisible(true);
+        }
+        else{
+            logAdminItem.setVisible(false);
+        }
 
         View actionView = cartItem.getActionView();
-
         if (actionView != null) {
             cartBadge = actionView.findViewById(R.id.cart_badge);
             ImageView cartIcon = actionView.findViewById(R.id.cart_icon);
@@ -163,7 +194,23 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
                 return true;
             case R.id.action_logout:
                 //Chuyển đến LoginActivity khi nhấp vào action_logout
+                //Retset thông tin User
+                userSession = User.getInstance();
+                userSession.setEmail(null);
+                userSession.setUserName(null);
+                userSession.setId(null);
+                userSession.setRole(0);
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_signIn:
+                //Chuyển đến trang Login
                 intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_signUp:
+                //Chuyển đến trang Register
+                intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 return true;
             default:

@@ -66,6 +66,25 @@
                 android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Input for product price -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Giảm giá (%)"
+            app:errorEnabled="true"
+            app:boxStrokeErrorColor="@color/red">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productDiscount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:background="@drawable/input_background_product"
+                android:textColor="@color/purple_200"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Input for product stock -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

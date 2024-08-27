@@ -45,7 +45,7 @@ import Entities.ProductCategory;
 
 public class AddProductActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
-    private TextInputEditText productName, productPrice, productStock, productDescription;
+    private TextInputEditText productName, productPrice, productStock, productDescription, productDiscount;
     private Button btnProductImage, btnSubmit;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
@@ -74,11 +74,12 @@ public class AddProductActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.ProductPrice);
         productStock = findViewById(R.id.ProductStock);
         productDescription = findViewById(R.id.ProductDescription);
+        productDiscount = findViewById(R.id.productDiscount);
         btnProductImage = findViewById(R.id.btnProdutImage);
         btnSubmit = findViewById(R.id.btnSubmit);
         txtViewUrlImg = findViewById(R.id.txtViewUrlImg);
         spinnerProductCategory = findViewById(R.id.spinnerProductCategory);
-
+        productDiscount.setText("0");
 
         // Kiểm tra nếu là trường hợp cập nhật
         Intent intent = getIntent();
@@ -160,7 +161,7 @@ public class AddProductActivity extends AppCompatActivity {
                     Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
                         productName.setText(product.getName());
-                        productPrice.setText(product.getPrice());
+                        productPrice.setText(String.valueOf(product.getPrice()));
                         productStock.setText(String.valueOf(product.getStock()));
                         productDescription.setText(product.getDescription());
                         txtViewUrlImg.setText(product.getImageUrl());
@@ -291,12 +292,17 @@ public class AddProductActivity extends AppCompatActivity {
     //Hàm xử lý tạo mới/ cập nhật sản phẩm
     private void saveProductData(String imageUrl) {
         String name = Objects.requireNonNull(productName.getText()).toString();
-        String price = Objects.requireNonNull(productPrice.getText()).toString();
+        Double price =  Double.parseDouble(productPrice.getText().toString());
         long stock = Objects.requireNonNull(Long.parseLong(productStock.getText().toString()));
         String description = Objects.requireNonNull(productDescription.getText()).toString();
+        Double discount = Double.parseDouble(productDiscount.getText().toString());
 
         // Kiểm tra nếu productId đã tồn tại (chế độ cập nhật) hoặc không (chế độ thêm mới)
         String productId = this.productId != null ? this.productId : databaseReference.push().getKey();
+
+        if(discount == null || productDiscount.getText().toString().isEmpty()){
+            discount = 0.0;
+        }
 
         // Tạo một map để chứa dữ liệu
         Map<String, Object> productData = new HashMap<>();
@@ -304,6 +310,7 @@ public class AddProductActivity extends AppCompatActivity {
         productData.put("price", price);
         productData.put("stock", stock);
         productData.put("description", description);
+        productData.put("discount", discount);
         productData.put("categoryId", selectedCategoryId);
 
         // Kiểm tra nếu đang trong chế độ cập nhật
@@ -365,7 +372,8 @@ public class AddProductActivity extends AppCompatActivity {
         productPrice.setText("");
         productStock.setText("");
         productDescription.setText("");
-        txtViewUrlImg.setText("");
+        productDiscount.setText("");
+        txtViewUrlImg.setText("0");
         imageUri = null;
         btnSubmit.setText("Thêm sản phẩm");
         imgProductThumbnail.setImageDrawable(null);
@@ -401,6 +409,13 @@ public class AddProductActivity extends AppCompatActivity {
             isValid = false;
         } else {
             ((TextInputLayout) productDescription.getParent().getParent()).setError(null);
+        }
+
+        if ( Double.parseDouble(productDiscount.getText().toString().trim()) > 100.00) {
+            ((TextInputLayout) productDiscount.getParent().getParent()).setError("Bạn không thể nhập giảm giá lớn hơn 100%");
+            isValid = false;
+        } else {
+            ((TextInputLayout) productDiscount.getParent().getParent()).setError(null);
         }
 
         return isValid;

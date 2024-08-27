@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (BCrypt.checkpw(password, storedPasswordHash)) {
 
                                 String userID = userSnapshot.getKey();
-                                String username = userSnapshot.child("username").getValue(String.class);
+                                String username = userSnapshot.child("userName").getValue(String.class);
                                 int role = userSnapshot.child("role").getValue(int.class);
 
                                 User session = User.getInstance();

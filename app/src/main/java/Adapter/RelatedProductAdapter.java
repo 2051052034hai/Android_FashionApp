@@ -13,7 +13,10 @@ import Entities.Product;
 import com.bumptech.glide.Glide;
 import com.example.fashion_app.ProductDetailActivity;
 import com.example.fashion_app.R;
+
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAdapter.RelatedProductViewHolder> {
 
@@ -34,6 +37,12 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
     @Override
     public void onBindViewHolder(@NonNull RelatedProductViewHolder holder, int position) {
         Product product = relatedProducts.get(position);
+        double priceValue = product.getPrice();
+
+        // Format the price with a dot separator and add " đ"
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
+        String formattedPrice = numberFormat.format(priceValue) + " đ";
+
         Glide.with(holder.itemView.getContext())
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.white_product)
@@ -41,8 +50,7 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
                 .into(holder.relatedProductImage);
 
         holder.relatedProductName.setText(product.getName());
-        holder.relatedProductPrice.setText(product.getPrice());
-        //holder.relatedProductPrice.setText(NumberFormat.getNumberInstance(Locale.US).format(product.getPrice()) + " đ");
+        holder.relatedProductPrice.setText(formattedPrice);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
