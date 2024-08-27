@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,9 +38,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context context;
     private OnItemClickListener listener;
 
-    public ProductListAdapter(List<Product> productList, Context context) {
+    private int checkView;
+
+    public ProductListAdapter(List<Product> productList, Context context, int checkView) {
         this.productList = productList;
         this.context = context;
+        this.checkView = checkView;
     }
 
     public interface OnItemClickListener {
@@ -72,10 +76,21 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 .error(R.drawable.white_product) // Hình ảnh lỗi nếu tải không thành công
                 .into(holder.productImage); // ImageView nơi hình ảnh sẽ được tải
 
+
+
         // Set click listener for the action button
         holder.txtAction.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(context, holder.txtAction);
             popupMenu.inflate(R.menu.product_list_actions);
+
+            MenuItem action_edit_Item =  popupMenu.getMenu().findItem(R.id.action_edit);
+            MenuItem action_edit_Del =  popupMenu.getMenu().findItem(R.id.action_delete);
+
+            if(checkView == 1){
+                action_edit_Item.setVisible(false);
+                action_edit_Del.setVisible(false);
+            }
+
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.action_view:

@@ -7,6 +7,8 @@ public class Orders {
     private String id;
     private double totalAmount;
     private String userId;
+
+    private String createdDate;
     private Map<String, Product> items;
 
     // Default constructor
@@ -14,9 +16,10 @@ public class Orders {
     }
 
     // Parameterized constructor
-    public Orders(String id, double totalAmount, String userId, Map<String, Product> items) {
+    public Orders(String createdDate, String id, double totalAmount, String userId,  Map<String, Product> items) {
         this.id = id;
         this.totalAmount = totalAmount;
+        this.createdDate = createdDate;
         this.userId = userId;
         this.items = items;
     }
@@ -52,5 +55,13 @@ public class Orders {
 
     public void setItems(Map<String, Product> items) {
         this.items = items;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 }

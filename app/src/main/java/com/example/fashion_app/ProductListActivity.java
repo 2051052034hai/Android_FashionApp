@@ -44,7 +44,7 @@ public class ProductListActivity extends DrawerLayoutActivity {
         recyclerViewProductList.setLayoutManager(new LinearLayoutManager(this));
 
         productList = new ArrayList<>();
-        productListAdapter = new ProductListAdapter(productList, this);
+        productListAdapter = new ProductListAdapter(productList, this, 0);
         recyclerViewProductList.setAdapter(productListAdapter);
 
         //Load danh sách sản phẩm

@@ -14,15 +14,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import Common.DrawerLayoutActivity;
 import Entities.Product;
 import Entities.ProductCategory;
 
-public class ViewProductActivity extends AppCompatActivity {
+public class ViewProductActivity extends DrawerLayoutActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_product);
+        getLayoutInflater().inflate(R.layout.activity_view_product, findViewById(R.id.content_frame));
 
         // Lấy ID sản phẩm từ Intent
         String productId = getIntent().getStringExtra("PRODUCT_ID");
@@ -31,6 +32,7 @@ public class ViewProductActivity extends AppCompatActivity {
         ImageView productImage = findViewById(R.id.productImage);
         TextView productName = findViewById(R.id.productName);
         TextView productPrice = findViewById(R.id.productPrice);
+        TextView productDiscount = findViewById(R.id.productDiscount);
         TextView productStock = findViewById(R.id.productStock);
         TextView productDescription = findViewById(R.id.productDescription);
         TextView productCategory = findViewById(R.id.productCategory);
@@ -52,6 +54,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
                     productName.setText(product.getName());
                     productPrice.setText(product.getPrice() + " VND");
+                    productDiscount.setText(product.getDiscount() + " %");
                     productStock.setText(String.valueOf(product.getStock()));
                     productDescription.setText(product.getDescription());
 

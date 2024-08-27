@@ -47,6 +47,41 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
+    <!-- Title Row -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Product category name -->
+        <TextView
+            android:id="@+id/titleProductImg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Ảnh sản phẩm"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:paddingRight="25dp"
+            android:gravity="center_vertical"/>
+
+        <!-- Created date -->
+        <TextView
+            android:id="@+id/titleProductName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Tên sản phẩm"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:paddingRight="25dp"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
 
     <!-- RecyclerView to display product list -->
     <androidx.recyclerview.widget.RecyclerView
