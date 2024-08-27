@@ -1,5 +1,7 @@
 package com.example.fashion_app;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,10 +21,13 @@ import Common.CartManager;
 import Adapter.CartAdapter;
 import Common.CartUpdateListener;
 import Entities.CartItem;
+import Entities.User;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,6 +40,8 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
     private DatabaseReference databaseReference;
     private Button checkout_button;
     private CartUpdateListener cartUpdateListener;
+    private User userSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +56,33 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
         updateTotal();
 
         checkout_button = findViewById(R.id.checkout_button);
+        //Lấy thông tin user đang đăng nhập
+        userSession = User.getInstance();
+        String userID = userSession.getId();
+
         checkout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performCheckout();
+                if(userID != null){
+                    //Xử lý thanh toán đơn hàng
+                    performCheckout();
+                }
+                else {
+                    // Hiển thị một AlertDialog để yêu cầu đăng nhập
+                    new AlertDialog.Builder(CartActivity.this)
+                            .setTitle("Đăng nhập")
+                            .setMessage("Để thanh toán sản phẩm trong giỏ, vui lòng đăng nhập !")
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                Intent intent = new Intent(CartActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Không", (dialog, which) -> {
+                                // Xử lý khi người dùng nhấn "Không"
+                                dialog.dismiss();
+                            })
+                            .show();
+                }
+
             }
         });
     }
@@ -67,9 +97,10 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
         List<CartItem> cartItems = cartManager.getCart();
         double total = 0;
         for (CartItem item : cartItems) {
-            total += item.getPrice() * item.getQuantity();
+            double itemProductPriceDiscount = item.getPrice() - (item.getPrice() * item.getDiscount() / 100);
+            total += itemProductPriceDiscount * item.getQuantity();
         }
-        totalTextView.setText(String.format("Tổng tiền: %.2f đ", total));
+        totalTextView.setText(String.format("%s đ", NumberFormat.getInstance(new Locale("vi", "VN")).format(total)));
     }
 
     //Xử lý khi cập nhật số lượng sản phẩm trong giỏ
@@ -108,6 +139,7 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
         // Create a map to store order details
         Map<String, Object> order = new HashMap<>();
         order.put("id", orderId);
+        order.put("userId", userSession.getId());
         order.put("items", new HashMap<String, Object>());
 
         List<DatabaseReference> productRefs = new ArrayList<>();
@@ -115,13 +147,17 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
 
         // Calculate total amount and prepare order items
         for (CartItem item : cartItems) {
-            totalAmount += item.getPrice() * item.getQuantity();
+            double itemProductPriceDiscount = item.getPrice() - (item.getPrice() * item.getDiscount() / 100);
+            totalAmount += itemProductPriceDiscount * item.getQuantity();
 
             Map<String, Object> orderItem = new HashMap<>();
+            orderItem.put("categoryId", item.getCategoryId());
+            orderItem.put("description", item.getDescription());
             orderItem.put("imageUrl", item.getImageUrl());
             orderItem.put("productId", item.getProductId());
             orderItem.put("name", item.getProductName());
             orderItem.put("price", item.getPrice());
+            orderItem.put("discount", item.getDiscount());
             orderItem.put("quantity", item.getQuantity());
 
             orderItems.add(orderItem);

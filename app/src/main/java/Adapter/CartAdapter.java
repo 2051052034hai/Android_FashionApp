@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import Common.CartUpdateListener;
 import Entities.CartItem;
+
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.bumptech.glide.Glide;
 import com.example.fashion_app.R;
@@ -70,8 +73,10 @@ public class CartAdapter extends BaseAdapter {
                 .error(R.drawable.white_product)
                 .into(imageView);
 
+        double itemProductPriceDiscount = item.getPrice() - (item.getPrice() * item.getDiscount() / 100);
+
         nameView.setText(item.getProductName());
-        priceView.setText(String.format("%.2f đ", item.getPrice()));
+        priceView.setText(String.format("%s đ", NumberFormat.getInstance(new Locale("vi", "VN")).format(itemProductPriceDiscount)));
         quantityView.setText(String.format("x%d", item.getQuantity()));
 
         // Handle quantity increase

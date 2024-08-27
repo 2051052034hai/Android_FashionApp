@@ -5,15 +5,16 @@ public class Product {
     private String name;
     private String categoryId;
     private String description;
-    private String price;
+    private double price;
     private long stock;
+    private double discount;
     private String imageUrl;
 
     // Default constructor required for calls to DataSnapshot.getValue(Product.class)
     public Product() {}
 
     // Parameterized constructor
-    public Product(String id, String name, String categoryId, String description, String price, long stock, String imageUrl) {
+    public Product(String id, String name, String categoryId, String description, double price, long stock, double discount, String imageUrl) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
@@ -21,6 +22,7 @@ public class Product {
         this.price = price;
         this.stock = stock;
         this.imageUrl = imageUrl;
+        this.discount = discount;
     }
 
     // Getters and setters for each field
@@ -56,11 +58,11 @@ public class Product {
         this.description = description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -70,6 +72,14 @@ public class Product {
 
     public void setStock(long stock) {
         this.stock = stock;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getDiscount() {
+        return discount;
     }
 
     public String getImageUrl() {

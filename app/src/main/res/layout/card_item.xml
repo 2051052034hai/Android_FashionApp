@@ -35,13 +35,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_product_name"
         android:layout_marginTop="4dp"
-        android:text="Giá: 200.000 vnđ"
+        android:text=""
         android:textColor="#FFFF0000"
-        android:textSize="10sp"
+        android:textSize="12sp"
+        android:layout_marginLeft="14dp"
+        android:gravity="left" />
+
+    <!-- Giá sản phẩm -->
+    <TextView
+        android:id="@+id/productPriceDiscount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_product_name"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="32dp"
+        android:text=""
+        android:textColor="#FFFF0000"
+        android:textSize="13sp"
         android:gravity="center" />
 
+
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/text_product_discount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text = "- 50%"

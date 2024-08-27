@@ -1,5 +1,7 @@
 package com.example.fashion_app;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -7,8 +9,11 @@ import android.widget.Button;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,7 +61,10 @@ public class ProductDetailActivity extends BaseActivity {
         TextView productName = findViewById(R.id.productName);
         TextView productStock = findViewById(R.id.productStock);
         TextView productPrice = findViewById(R.id.productPrice);
+        TextView productDiscount = findViewById(R.id.text_product_discount);
         TextView productDescription = findViewById(R.id.productDescription);
+        TextView txtPriceDiscount = findViewById(R.id.productPriceDiscount);
+        addToCartButton = findViewById(R.id.addToCartButton);
 
         // Truy vấn Firebase để lấy thông tin sản phẩm
         DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("products").child(productId);
@@ -64,7 +72,11 @@ public class ProductDetailActivity extends BaseActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 product = dataSnapshot.getValue(Product.class);
-
+                double priceValue = product.getPrice();
+                double productPriceDiscount = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
+                // Format the price with a dot separator and add " đ"
+                NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
+                String formattedPrice = numberFormat.format(priceValue) + " đ";
                 // Cập nhật thông tin sản phẩm lên các view
                 if (product != null) {
                     Glide.with(ProductDetailActivity.this)
@@ -74,11 +86,28 @@ public class ProductDetailActivity extends BaseActivity {
                             .into(productImage);
 
                     productName.setText(product.getName());
-                    productPrice.setText(product.getPrice() + " VND");
-                    productStock.setText("Còn hàng: " + product.getStock() +" cái");
-                    productDescription.setText(product.getDescription());
+                    productPrice.setText(formattedPrice);
 
+                    if(product.getDiscount() <= 0.0){
+                        productDiscount.setVisibility(View.GONE);
+                    }else
+                    {
+                        productDiscount.setText("- "+ String.valueOf(product.getDiscount()) + "%");
+                    }
+
+                    if(product.getStock() <= 0.0){
+                        addToCartButton.setText("Đã hết hàng");
+                        addToCartButton.setEnabled(false);
+                        addToCartButton.setBackgroundColor(Color.GRAY);
+                        productStock.setVisibility(View.GONE);
+                    }else {
+                        productStock.setText("Còn hàng: " + product.getStock() +" cái");
+                    }
+
+                    productDescription.setText(product.getDescription());
+                    productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     fetchRelatedProducts(product.getCategoryId(), product.getId());
+                    txtPriceDiscount.setText(numberFormat.format(productPriceDiscount) + " đ");
                 }
             };
             @Override
@@ -151,7 +180,10 @@ public class ProductDetailActivity extends BaseActivity {
                         productId,
                         product.getName(),
                         currentQuantitySum,
-                        Double.parseDouble(product.getPrice()),
+                        product.getPrice(),
+                        product.getDiscount(),
+                        product.getCategoryId(),
+                        product.getDescription(),
                         product.getImageUrl()
                 );
 

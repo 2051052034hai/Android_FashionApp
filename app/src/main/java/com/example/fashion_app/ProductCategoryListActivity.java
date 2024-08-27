@@ -126,7 +126,7 @@ public class ProductCategoryListActivity extends DrawerLayoutActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProductCategoryListActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductCategoryListActivity.this, "Failed to load productCategories", Toast.LENGTH_SHORT).show();
             }
         });
     }
