@@ -16,6 +16,7 @@ import com.example.fashion_app.OrdersListActivity;
 import com.example.fashion_app.ProductCategoryListActivity;
 import com.example.fashion_app.ProductListActivity;
 import com.example.fashion_app.R;
+import com.example.fashion_app.UserListActivity;
 
 public abstract class DrawerLayoutActivity extends AppCompatActivity {
 
@@ -67,6 +68,19 @@ public abstract class DrawerLayoutActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         startActivity(new Intent(DrawerLayoutActivity.this, OrdersListActivity.class));
+                    }
+                }, 250);
+            }
+        });
+
+        findViewById(R.id.menu_user_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(DrawerLayoutActivity.this, UserListActivity.class));
                     }
                 }, 250);
             }
