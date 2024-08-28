@@ -31,7 +31,7 @@
 <!--        </activity>-->
 
         <activity
-            android:name="com.example.fashion_app.OrdersListActivity"
+            android:name="com.example.fashion_app.UserListActivity"
             android:exported="true"
             android:theme="@style/Theme.Fashion_App">
             <intent-filter>
@@ -74,6 +74,9 @@
             android:exported="true" />
         <activity
             android:name="com.example.fashion_app.ViewOdersActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.AddUserActivity"
             android:exported="true" />
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - End Add-->
     </application>

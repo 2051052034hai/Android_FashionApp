@@ -93,6 +93,33 @@
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
+        <!-- Menu Item 3 -->
+        <RelativeLayout
+            android:id="@+id/menu_user_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_introduction"
+                android:layout_marginEnd="30dp"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quản lý người dùng"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginStart="50dp"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
         <!-- Menu Item 4 -->
         <RelativeLayout
             android:id="@+id/menu_orders_item"
