@@ -40,10 +40,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import Common.DrawerLayoutActivity;
 import Entities.Product;
 import Entities.ProductCategory;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity  extends DrawerLayoutActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private TextInputEditText productName, productPrice, productStock, productDescription, productDiscount;
     private Button btnProductImage, btnSubmit;
@@ -62,7 +63,7 @@ public class AddProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        getLayoutInflater().inflate(R.layout.activity_add_product, findViewById(R.id.content_frame));
 
         // Initialize Firebase references
         databaseReference = FirebaseDatabase.getInstance().getReference("products");

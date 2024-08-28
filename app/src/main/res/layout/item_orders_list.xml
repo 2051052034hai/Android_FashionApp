@@ -6,48 +6,51 @@
     android:padding="8dp">
 
     <!-- Orders Item Row -->
-<LinearLayout
-android:orientation="horizontal"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginStart="8dp"
-android:gravity="center_vertical">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical">
 
-<!-- Product category name -->
-<TextView
-    android:id="@+id/ordersUserName"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.4"
-    android:text=""
-    android:textSize="16sp"
-    android:textStyle="bold"
-    android:paddingRight="25dp"
-    android:gravity="center_vertical"/>
+        <!-- Product category name -->
+        <TextView
+            android:id="@+id/ordersUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:text=""
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingRight="25dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:singleLine="false"/>
 
-<!-- Product category description-->
-<TextView
-    android:id="@+id/ordersTotalAmount"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.6"
-    android:text=""
-    android:textSize="16sp"
-    android:textStyle="bold"
-    android:gravity="center_vertical"/>
+        <!-- Product category description-->
+        <TextView
+            android:id="@+id/ordersCreatedDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text=""
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:singleLine="false"/>
 
-    <!-- Action Button with Dropdown Menu -->
-    <ImageView
-        android:id="@+id/btn_view_item"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/view"
-        android:contentDescription="Xem chi tiết"
-        android:layout_gravity="end"
-        android:padding="8dp"
-        />
-
-</LinearLayout>
-
+        <!-- Action Button with Dropdown Menu -->
+        <ImageView
+            android:id="@+id/btn_view_item"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/view"
+            android:contentDescription="Xem chi tiết"
+            android:layout_gravity="end"
+            android:padding="8dp"/>
+    </LinearLayout>
 
 </LinearLayout>

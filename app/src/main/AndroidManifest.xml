@@ -72,6 +72,9 @@
         <activity
             android:name="com.example.fashion_app.ViewProductActivity"
             android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.ViewOdersActivity"
+            android:exported="true" />
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - End Add-->
     </application>
 

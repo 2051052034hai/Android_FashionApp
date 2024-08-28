@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:layout_marginBottom="16dp"
             android:queryHint="Nhập vào tên..."
-            app:defaultQueryHint="Tìm kiếm đơn hàng" />
+            app:defaultQueryHint="Tìm kiếm khách hàng" />
     </LinearLayout>
 
     <!-- Title Row -->
@@ -57,16 +57,17 @@
             android:paddingRight="25dp"
             android:gravity="center_vertical"/>
 
-        <!-- Product category description-->
+        <!-- Created date -->
         <TextView
-            android:id="@+id/titleTotalAmount"
+            android:id="@+id/titleCreateDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="Tổng tiền"
-            android:textColor="@color/black"
+            android:layout_weight="0.4"
+            android:text="Ngày mua hàng"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:textStyle="bold"
+            android:paddingRight="25dp"
             android:gravity="center_vertical"/>
 
     </LinearLayout>

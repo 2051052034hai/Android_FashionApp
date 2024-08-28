@@ -24,7 +24,9 @@ import Entities.CartItem;
 import Entities.User;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -142,6 +144,10 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
         order.put("userId", userSession.getId());
         order.put("items", new HashMap<String, Object>());
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+        order.put("createdDate", currentDate);
+
         List<DatabaseReference> productRefs = new ArrayList<>();
         List<Map<String, Object>> orderItems = new ArrayList<>();
 
@@ -154,7 +160,7 @@ public class CartActivity extends BaseActivity implements CartAdapter.OnQuantity
             orderItem.put("categoryId", item.getCategoryId());
             orderItem.put("description", item.getDescription());
             orderItem.put("imageUrl", item.getImageUrl());
-            orderItem.put("productId", item.getProductId());
+            orderItem.put("id", item.getProductId());
             orderItem.put("name", item.getProductName());
             orderItem.put("price", item.getPrice());
             orderItem.put("discount", item.getDiscount());

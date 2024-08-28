@@ -21,9 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import Common.DrawerLayoutActivity;
 import Entities.ProductCategory;
 
-public class AddProductCategoryActivity  extends AppCompatActivity {
+public class AddProductCategoryActivity extends DrawerLayoutActivity {
     private TextInputEditText productCatName, productCatDescription;
     private DatabaseReference databaseReference;
     private Button btnSubmit;
@@ -31,7 +32,7 @@ public class AddProductCategoryActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product_category);
+        getLayoutInflater().inflate(R.layout.activity_add_product_category, findViewById(R.id.content_frame));
 
         // Initialize Firebase references
         databaseReference = FirebaseDatabase.getInstance().getReference("categories");

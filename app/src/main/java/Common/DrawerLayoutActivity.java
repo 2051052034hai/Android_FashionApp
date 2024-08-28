@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.fashion_app.OrdersListActivity;
 import com.example.fashion_app.ProductCategoryListActivity;
 import com.example.fashion_app.ProductListActivity;
 import com.example.fashion_app.R;
@@ -32,7 +33,7 @@ public abstract class DrawerLayoutActivity extends AppCompatActivity {
 
         menuButton = findViewById(R.id.menu_button);
 
-        findViewById(R.id.menu_home_item).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.menu_product_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
@@ -45,7 +46,7 @@ public abstract class DrawerLayoutActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.menu_introduction_item).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.menu_category_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
@@ -53,6 +54,19 @@ public abstract class DrawerLayoutActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         startActivity(new Intent(DrawerLayoutActivity.this, ProductCategoryListActivity.class));
+                    }
+                }, 250);
+            }
+        });
+
+        findViewById(R.id.menu_orders_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(DrawerLayoutActivity.this, OrdersListActivity.class));
                     }
                 }, 250);
             }

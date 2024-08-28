@@ -41,7 +41,7 @@
 
         <!-- Menu Item 1 -->
         <RelativeLayout
-            android:id="@+id/menu_home_item"
+            android:id="@+id/menu_product_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -68,7 +68,7 @@
 
         <!-- Menu Item 2 -->
         <RelativeLayout
-            android:id="@+id/menu_introduction_item"
+            android:id="@+id/menu_category_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -86,6 +86,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quản lý loại sản phẩm"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginStart="50dp"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <!-- Menu Item 4 -->
+        <RelativeLayout
+            android:id="@+id/menu_orders_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_introduction"
+                android:layout_marginEnd="30dp"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quản lý đơn hàng"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginStart="50dp"
