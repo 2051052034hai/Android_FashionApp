@@ -1,6 +1,8 @@
 package com.example.fashion_app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.Normalizer;
@@ -32,8 +35,8 @@ public class OrdersListActivity extends DrawerLayoutActivity {
     private RecyclerView recyclerViewOrdersList;
     private OrdersListAdapter ordersListAdapter;
     private List<Orders> ordersList;
-
     private  String userName;
+    private String userID;
     private SearchView search_view;
 
     @Override
@@ -48,8 +51,17 @@ public class OrdersListActivity extends DrawerLayoutActivity {
         ordersListAdapter = new OrdersListAdapter(ordersList, this);
         recyclerViewOrdersList.setAdapter(ordersListAdapter);
 
-        //Load danh sách đơn hàng
-        settingAllOrdersFromFirebase();
+        Intent intent = getIntent();
+        if (intent.hasExtra("USER_ID") && intent.getStringExtra("USER_ID") != null) {
+            userID = intent.getStringExtra("USER_ID");
+            //Load danh sách đơn hàng
+            settingAllOrdersFromFirebase(userID);
+        }
+        else {
+            //Load danh sách đơn hàng
+            settingAllOrdersFromFirebase(null);
+        }
+
 
         // Xử lý khi click vào nút search sản phẩm
         search_view = findViewById(R.id.search_view);
@@ -63,7 +75,7 @@ public class OrdersListActivity extends DrawerLayoutActivity {
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
                     // If the search view is cleared, show all products
-                    settingAllOrdersFromFirebase();
+                    settingAllOrdersFromFirebase(null);
                 } else {
                     // Filter product list based on search text
                    filterOrdersList(newText);
@@ -122,9 +134,19 @@ public class OrdersListActivity extends DrawerLayoutActivity {
     }
 
     //Xử lý load thông tin cho danh muc đơn hàng
-    private void settingAllOrdersFromFirebase() {
+    private void settingAllOrdersFromFirebase(String userId) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("orders");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+
+        Query query;
+        if (userId != null && !userId.isEmpty()) {
+            // Nếu có userId, chỉ tải đơn hàng cho userId đó
+            query = databaseReference.orderByChild("userId").equalTo(userId);
+        } else {
+            // Nếu không có userId, tải tất cả đơn hàng
+            query = databaseReference;
+        }
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ordersList.clear();

@@ -3,6 +3,7 @@ package com.example.fashion_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,11 +33,12 @@ import Common.DrawerLayoutActivity;
 import Entities.User;
 
 public class AddUserActivity extends DrawerLayoutActivity {
-    private TextInputEditText userName, userEmail, userPassword;
+    private TextInputEditText userName, userEmail, userPassword, userNewPassword;
     private DatabaseReference databaseReference;
-    private Button btnSubmit;
+    private Button btnSubmit, btnChangePassword;
     private String userID;
     private Spinner spinnerUserRole;
+    private int selectedChangePass = 0;
     private  int selectedRoleID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +54,51 @@ public class AddUserActivity extends DrawerLayoutActivity {
         userPassword = findViewById(R.id.Password);
         spinnerUserRole = findViewById(R.id.spinnerRole);
         btnSubmit = findViewById(R.id.btnSubmit);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        userNewPassword = findViewById(R.id.newPassword);
+        userNewPassword.setVisibility(View.GONE);
 
         // Kiểm tra nếu là trường hợp cập nhật
         Intent intent = getIntent();
         if (intent.hasExtra("USER_ID") && intent.getStringExtra("USER_ID") != null) {
             userID = intent.getStringExtra("USER_ID");
             loadUserData(userID);
+            userPassword.setEnabled(false);
             btnSubmit.setText("Cập nhật");
         }
+        else {
+            userPassword.setEnabled(true);
+            btnChangePassword.setVisibility(View.GONE);
+        }
+
+        btnChangePassword.setOnClickListener(v -> {
+            if (userNewPassword.getVisibility() == View.VISIBLE) {
+                btnChangePassword.setText("Thay đổi");
+                userNewPassword.setVisibility(View.GONE);
+                ViewParent parent = userNewPassword.getParent().getParent();
+                if (parent instanceof View) {
+                    View parentView = (View) parent;
+                    // Set the parent view's visibility to VISIBLE
+                    parentView.setVisibility(View.GONE);
+
+                    // If the parent view is a TextInputLayout, clear the error
+                    if (parentView instanceof TextInputLayout) {
+                        ((TextInputLayout) parentView).setError(null);
+                    }
+                }
+                selectedChangePass = 0;
+            } else {
+                btnChangePassword.setText("Đóng");
+                ViewParent parent = userNewPassword.getParent().getParent();
+                if (parent instanceof View) {
+                    View parentView = (View) parent;
+                    // Set the parent view's visibility to VISIBLE
+                    parentView.setVisibility(View.VISIBLE);
+                }
+                userNewPassword.setVisibility(View.VISIBLE);
+                selectedChangePass = 1;
+            }
+        });
 
         //Xử lý khi click vào button thêm mới sản phẩm
         btnSubmit.setOnClickListener(v -> {
@@ -100,6 +141,7 @@ public class AddUserActivity extends DrawerLayoutActivity {
                     if (user != null) {
                         userName.setText(user.getUserName());
                         userEmail.setText(user.getEmail());
+                        userPassword.setText(user.getPassWord());
                     }
                 } else {
                     Toast.makeText(AddUserActivity.this, "User not found", Toast.LENGTH_SHORT).show();
@@ -117,7 +159,8 @@ public class AddUserActivity extends DrawerLayoutActivity {
     private void saveUserData() {
         String username = Objects.requireNonNull(userName.getText()).toString();
         String useremail = Objects.requireNonNull(userEmail.getText()).toString();
-
+        String userpassword = Objects.requireNonNull(userPassword.getText()).toString();
+        String hashedPassword = BCrypt.hashpw(userpassword, BCrypt.gensalt());
         // Kiểm tra nếu productCatId đã tồn tại (chế độ cập nhật) hoặc không (chế độ thêm mới)
         String userId = this.userID != null ? this.userID : databaseReference.push().getKey();
 
@@ -127,10 +170,18 @@ public class AddUserActivity extends DrawerLayoutActivity {
         // Nếu là trường hợp thêm mới, thêm id vào dữ liệu
         if (this.userID == null) {
             userData.put("id", userId);
+            userData.put("passWord", hashedPassword);
+        }
+
+        String txtNewPassword = userNewPassword.getText().toString();
+        if( txtNewPassword != null && !txtNewPassword.isEmpty() && selectedChangePass == 1 ){
+            String hashedNewPassword = BCrypt.hashpw(txtNewPassword, BCrypt.gensalt());
+            userData.put("passWord", hashedNewPassword);
         }
 
         userData.put("userName", username);
         userData.put("email", useremail);
+        userData.put("role", selectedRoleID);
 
         // Chọn phương thức lưu trữ phù hợp (cập nhật hoặc thêm mới)
         Task<Void> saveTask = this.userID != null ?
@@ -158,6 +209,7 @@ public class AddUserActivity extends DrawerLayoutActivity {
     private void resetForm() {
         userName.setText("");
         userEmail.setText("");
+        userPassword.setText("");
         userID = null;
         btnSubmit.setText("Thêm người dùng");
     }
@@ -180,6 +232,21 @@ public class AddUserActivity extends DrawerLayoutActivity {
             ((TextInputLayout) userEmail.getParent().getParent()).setError(null);
         }
 
+        if (Objects.requireNonNull(userPassword.getText()).toString().trim().isEmpty()) {
+            ((TextInputLayout) userPassword.getParent().getParent()).setError("Bạn phải nhập vào mật khẩu");
+            isValid = false;
+        } else {
+            ((TextInputLayout) userPassword.getParent().getParent()).setError(null);
+        }
+
+        if(selectedChangePass == 1){
+            if (Objects.requireNonNull(userNewPassword.getText()).toString().trim().isEmpty()) {
+                ((TextInputLayout) userNewPassword.getParent().getParent()).setError("Bạn phải nhập vào mật khẩu mới");
+                isValid = false;
+            } else {
+                ((TextInputLayout) userNewPassword.getParent().getParent()).setError(null);
+            }
+        }
         return isValid;
     }
 }

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.fashion_app.MainActivity;
 import com.example.fashion_app.OrdersListActivity;
 import com.example.fashion_app.ProductCategoryListActivity;
 import com.example.fashion_app.ProductListActivity;
@@ -33,6 +34,19 @@ public abstract class DrawerLayoutActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.menu_layout);
 
         menuButton = findViewById(R.id.menu_button);
+
+        findViewById(R.id.menu_home_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(DrawerLayoutActivity.this, MainActivity.class));
+                    }
+                }, 250);
+            }
+        });
 
         findViewById(R.id.menu_product_item).setOnClickListener(new View.OnClickListener() {
             @Override

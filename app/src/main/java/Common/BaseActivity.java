@@ -18,9 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 
+import com.example.fashion_app.AddUserActivity;
 import com.example.fashion_app.CartActivity;
 import com.example.fashion_app.LoginActivity;
 import com.example.fashion_app.MainActivity;
+import com.example.fashion_app.OrdersListActivity;
 import com.example.fashion_app.ProductListActivity;
 import com.example.fashion_app.R;
 import com.example.fashion_app.RegisterActivity;
@@ -76,19 +78,25 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
         MenuItem signInItem = menu.findItem(R.id.action_signIn);
         MenuItem signUpItem = menu.findItem(R.id.action_signUp);
         MenuItem logoutItem = menu.findItem(R.id.action_logout);
+        MenuItem inforUserItem = menu.findItem(R.id.action_inforUser);
+        MenuItem historyOrdersItem = menu.findItem(R.id.action_historyOrders);
 
         //Xử lý ẩn hiện các item dropdown khi đăng nhập
         if(userID == null){
             signInItem.setVisible(true);
             signUpItem.setVisible(true);
             logoutItem.setVisible(false);
+            inforUserItem.setVisible(false);
+            historyOrdersItem.setVisible(false);
         }else {
             signInItem.setVisible(false);
             signUpItem.setVisible(false);
+            inforUserItem.setVisible(true);
             logoutItem.setVisible(true);
+            historyOrdersItem.setVisible(true);
         }
 
-        if(userID == null && roleUser == 2){
+        if(userID != null && roleUser == 2){
             logAdminItem.setVisible(true);
         }
         else{
@@ -155,13 +163,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
             menuItem.setIcon(resizeDrawable(drawable, 60, 60, color)); // Adjust the size as needed
         }
 
-//        menuItem = menu.findItem(R.id.action_prev);
-//        drawable = ContextCompat.getDrawable(this, R.drawable.ic_prev);
-//        if (drawable != null) {
-//            menuItem.setIcon(resizeDrawable(drawable, 60, 60, color)); // Adjust the size as needed
-//        }
-
-        // Lặp lại cho các mục menu khác nếu cần
     }
 
     //Hàm xử lý thay đổi màu sắc, kích cỡ cho các icon trên ToolBar Menu
@@ -180,11 +181,28 @@ public abstract class BaseActivity extends AppCompatActivity implements CartUpda
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.action_title:
+                // Chuyển đến CartActivity khi nhấp vào action_cart
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_inforUser:
+                userSession = User.getInstance();
+                intent = new Intent(this, AddUserActivity.class);
+                intent.putExtra("USER_ID", userSession.getId());
+                startActivity(intent);
+                return true;
+            case R.id.action_historyOrders:
+                userSession = User.getInstance();
+                intent = new Intent(this, OrdersListActivity.class);
+                intent.putExtra("USER_ID", userSession.getId());
+                startActivity(intent);
+                return true;
             case R.id.action_user:
                 return true;
             case R.id.action_cart:
                 // Chuyển đến CartActivity khi nhấp vào action_cart
-                Intent intent = new Intent(this, CartActivity.class);
+                intent = new Intent(this, CartActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_logAdmin:
