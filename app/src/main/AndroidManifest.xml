@@ -20,18 +20,8 @@
             android:value="@string/app_description" />
 
         <!--Activity chính -->
-<!--        <activity-->
-<!--            android:name="com.example.fashion_app.MainActivity"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/Theme.Fashion_App">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
         <activity
-            android:name="com.example.fashion_app.UserListActivity"
+            android:name="com.example.fashion_app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Fashion_App">
             <intent-filter>
@@ -39,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - Begin Add-->
         <activity
@@ -77,6 +66,12 @@
             android:exported="true" />
         <activity
             android:name="com.example.fashion_app.AddUserActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.UserListActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.example.fashion_app.OrdersListActivity"
             android:exported="true" />
         <!-- Định nghĩa thêm các activity, service, receiver, provider nếu cần - End Add-->
     </application>

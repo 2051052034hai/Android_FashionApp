@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <item-->
-<!--        android:id="@+id/action_prev"-->
-<!--        android:icon="@drawable/ic_prev"-->
-<!--        android:orderInCategory="0"-->
-<!--        android:title="prev"-->
-<!--        app:showAsAction="always" />-->
+    <item
+        android:id="@+id/action_title"
+        android:title="Trang chủ"
+        android:icon="@drawable/ic_launcher_foreground"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_search"
@@ -30,11 +28,21 @@
         android:icon="@drawable/cart"
         android:title="Cart"
         app:showAsAction="always"
-        app:actionLayout="@layout/menu_cart_layout" />/>
+        app:actionLayout="@layout/menu_cart_layout" />
 
     <item
         android:id="@+id/action_logAdmin"
         android:title="Quản trị"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_inforUser"
+        android:title="Tài khoản"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_historyOrders"
+        android:title="Lịch sử mua hàng"
         app:showAsAction="never" />
 
     <item
